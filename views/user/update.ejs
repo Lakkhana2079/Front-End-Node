@@ -139,16 +139,16 @@ select {
 </head>
 <body>
     <h1>Update Book</h1>
-    <form method="post" action="http://localhost:5500/user/update/<%= book.user_id %>">
+    <form method="post" action="/user/update/<%= book.user_id %>">
         <label for="user">user_name:</label>
         <input type="text" id="user_name" name="user_name" value="<%= book.user_name %>">
         
         <input type="submit" value="Update">
     </form>
     <div class="link-center">
-    <a href="http://localhost:5500/user/<%= book.user_id %>">View</a>
-    <!-- <a href="http://localhost:5500/user/delete/<%= book.user_id %>">Delete</a> -->
-    <a href="http://localhost:5500/user">Back to List</a>
+    <a href="/user/<%= book.user_id %>">View</a>
+    <!-- <a href="/user/delete/<%= book.user_id %>">Delete</a> -->
+    <a href="/user">Back to List</a>
     </div>
 </body>
 </html>

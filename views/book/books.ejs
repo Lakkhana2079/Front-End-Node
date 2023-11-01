@@ -17,16 +17,16 @@
             <td><%= books[i].book_id %></td>
             <td><%= books[i].book_name %></td>
             <td>
-                <a href="http://localhost:5500/book/<%= books[i].book_id %>">View</a>
-                <!-- <a href="http://localhost:5500/book/update/<%= books[i].book_id %>">Edit</a> -->
-                <!-- <a href="http://localhost:5500/book/delete/<%= books[i].book_id %>">Delete</a> -->
+                <a href="/book/<%= books[i].book_id %>">View</a>
+                <!-- <a href="/book/update/<%= books[i].book_id %>">Edit</a> -->
+                <!-- <a href="/book/delete/<%= books[i].book_id %>">Delete</a> -->
             </td>
         </tr>
         <% } %>
     </table>
     <div class="link-center">
-    <a href="http://localhost:5500/books/create">Create New Book</a>
-    <a href="http://localhost:5500/">Back to List</a>
+    <a href="/books/create">Create New Book</a>
+    <a href="/">Back to List</a>
     </div>
 </body>
 </html>

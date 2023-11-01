@@ -17,7 +17,7 @@
             <td><%= books[i].user_id %></td>
             <td><%= books[i].user_name %></td>
             <td>
-                <a href="http://localhost:5500/user/<%= books[i].user_id %>">View</a>
+                <a href="/user/<%= books[i].user_id %>">View</a>
                 <!-- <a href="http://localhost:5500/user/update/<%= books[i].user_id %>">Edit</a> -->
                 <!-- <a href="http://localhost:5500/user/delete/<%= books[i].user_id %>">Delete</a> -->
             </td>
@@ -25,8 +25,8 @@
         <% } %>
     </table>
     <div class="link-center">
-    <a href="http://localhost:5500/users/create">Create New User</a>
-    <a href="http://localhost:5500/">Back to List</a>
+    <a href="/users/create">Create New User</a>
+    <a href="/">Back to List</a>
     </div>
 </body>
 </html>
