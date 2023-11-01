@@ -6,9 +6,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 // Base URL for the API
-const base_url = "http://10.104.12.114";
+//const base_url = "http://10.104.12.114";
 //const base_url = "http://localhost:3000";
-//const base_url = "http://node50268-lakkhana.proen.app.ruk-com.cloud";
+const base_url = "http://node50268-lakkhana.proen.app.ruk-com.cloud";
 
 // Set the template engine
 app.set('view engine' , 'ejs');
@@ -289,6 +289,6 @@ app.get("/data/delete/:id" , async (req,res) => {
 //     console.log('Server started on port 5500');
 // });
 
-app.listen(4500, ()=> {
-    console.log('Server started on port 4500');
+app.listen(8080, ()=> {
+    console.log('Server started on port 8080');
 });
