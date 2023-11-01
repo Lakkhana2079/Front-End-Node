@@ -1,97 +1,299 @@
-// Description: Node.js HTML client 
-// requires: npm install express ejs axios body-parser 
+const express = require('express');
+const axios = require('axios');
+const app = express();
+var bodyOarser = require('body-parser');
+const path = require('path');
+const bodyParser = require('body-parser');
 
-const express = require('express'); 
-const axios = require('axios'); 
-const app = express(); 
-var bodyParser = require('body-parser'); 
+// Base URL for the API
+// const base_url = "https://api.example.com";
+const base_url = "http://localhost:3000";
+//const base_url = "http://localhost:3000";
 
-// Base URL for the API 
-//const base_url = "https://api.example.com"; 
-const base_url = "http://localhost:3000"; 
-//const base_url = "http://10.104.14.140";
-
-// Set the template engine 
-app.set('view engine', 'ejs'); 
+// Set the template engine
+app.set('view engine' , 'ejs');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}))
 
-// Serve static files 
-app.use(express.static (__dirname + '/public')); 
+// Server static files
+app.use(express.static(__dirname+'/public'));
 
-app.get("/", async (req, res) => { 
-    try { 
-        const response = await axios.get(base_url + '/books'); 
-        res.render("books", { books: response.data }); 
-    } catch (err) { 
-        console.error(err); 
-        res.status(500).send('Error'); 
-    } 
-}); 
 
-app.get("/book/:id", async (req, res) => { 
-    try { 
-        const response = await axios.get(base_url + '/books/' + req.params.id); 
-        res.render("book", {book: response.data }); 
-    } catch (err) { 
-        console.error(err); 
-        res.status(500).send('Error'); 
-    } 
+app.get("/",async (req,res) => {
+    try{
+        res.render("index");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
 });
 
-app.get("/create", (req, res) => { 
-    res.render("create"); 
-}); 
+app.get("/book",async (req,res) => {
+    try{
+        const response = await axios.get(base_url + '/book');
+        res.render("book/books",{books:response.data});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
 
-app.post("/create", async (req, res) => { 
-    try { 
-        const data = { title: req.body. title, author: req.body.author }; 
-        await axios.post (base_url + '/books', data); 
-        res.redirect("/"); 
-    } catch (err) { 
-        console.error(err); 
-        res.status(500).send('Error'); 
-    } 
-}); 
+app.get("/book/:id", async(req,res) => {
+    try{
+        const response = await axios.get(base_url + '/book/' + req.params.id);
+        
+        res.render("book/Book",{Book:response.data});
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
 
-app.get("/update/:id", async (req, res) => { 
-    try { 
-        const response = await axios.get( 
-            base_url + '/books/' + req.params.id); 
-            res.render("update", { book: response.data }); 
-        } catch (err) { 
-            console.error(err); 
-            res.status(500).send('Error'); 
-        } 
-    });
+app.get("/book/create", (req, res) => {
+    res.render("book/create");
+});
 
-app.post("/update/:id", async (req, res) => { 
-    try { 
-        const data = { title: req.body.title, author: req.body.author }; 
-        await axios.put(base_url + '/books/' + req.params.id, data); 
-        res.redirect("/"); 
-    } catch (err) { 
-        console.error(err); 
-        res.status(500).send('Error'); 
-    } 
-}); 
+app.post("/book/create",async (req,res) =>{
+    try{
+        const data = {name: req.body.name };
+        await axios.post(base_url + '/book',data);
+        res.redirect("/book");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
 
-app.get("/delete/:id", async (req, res) => { 
-    try { 
-        await axios.delete(base_url + '/books/' + req.params.id);
-            res.redirect("/");  
-    } catch (err) { 
-        console.error(err); 
-        res.status(500).send('Error'); 
-    } 
-}); 
+// app.get("/book/update/:id" , async (req,res) => {
+//     try {
+//         const response = await axios.get(base_url + '/book/' + req.params.id);
+//         res.render("book/update", {book: response.data});
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error');
+//     }
+// });
 
-app.listen(5500, () => { 
-            console.log('Server started on port 5500'); 
-            });
+// app.post ("/book/update/:id" , async (req,res) => {
+//     try {
+//         const data = { name: req.body.name, number: req.body.number };
+//         await axios.put(base_url + '/book/' + req.params.id, data);
+//         res.redirect("/book/");
+//     }catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error');
+//     }
+// });
 
-// app.listen(8080, () => { 
-//                 console.log('Server started on port 8080'); 
-//                 });
 
-            
+// GET เส้นทางสำหรับแสดงแบบฟอร์มแก้ไขหนังสือ
+app.get("/book/update/:id", async (req, res) => {
+    try {
+        const response = await axios.get(base_url + '/book/' + req.params.id);
+        res.render("book/update", { book: response.data });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+// POST เส้นทางสำหรับการอัปเดตข้อมูลหนังสือ
+app.post("/book/update/:id", async (req, res) => {
+    try {
+        const data = { book_name: req.body.book_name };
+        await axios.put(base_url + '/book/' + req.params.id, data);
+        res.redirect("/book/");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+app.get("/book/delete/:id" , async (req,res) => {
+    try {
+        await axios.delete(base_url + '/book/' + req.params.id);
+            res.redirect("/book/");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+app.get("/user",async (req,res) => {
+    try{
+        const response = await axios.get(base_url + '/user');
+        res.render("user/books",{books:response.data});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+app.get("/user/:id", async(req,res) => {
+    try{
+        const response = await axios.get(base_url + '/user/' + req.params.id);
+        
+        res.render("user/book",{book:response.data});
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+ app.get("/user/create", (req, res) => {
+    res.render("user/create"); });
+
+app.post("/user/create",async (req,res) =>{
+    try{
+        const data = {user_name: req.body.user_name};
+        await axios.post(base_url + '/user',data);
+        res.redirect("/user/");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+app.get("/user/update/:id" , async (req,res) => {
+    try {
+        const response = await axios.get(base_url + '/user/' + req.params.id);
+        res.render("user/update", {book: response.data});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+app.post ("/user/update/:id" , async (req,res) => {
+    try {
+        const data = { user_name: req.body.user_name};
+        await axios.put(base_url + '/user/' + req.params.id, data);
+        res.redirect("/user");
+    }catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+app.get("/user/delete/:id" , async (req,res) => {
+    try {
+        await axios.delete(base_url + '/user/' + req.params.id);
+            res.redirect("/user/");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get("/data",async (req,res) => {
+    try{
+        const response = await axios.get(base_url + '/datd');
+        const response2 = await axios.get(base_url + '/book');
+        const response3 = await axios.get(base_url + '/user');
+        res.render("data/books",{books1:response.data ,books2:response2.data , books3:response3.data  });
+        //dsdsd
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+
+app.get("/data/:id", async(req,res) => {
+    try{
+        const response = await axios.get(base_url + '/data/' + req.params.id);
+        const response2 = await axios.get(base_url + '/book');
+        const response3 = await axios.get(base_url + '/user');
+        res.render("data/book",{book:response.data  ,book2:response2.data , book3:response3.data});
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+
+app.get("/data/create", (req, res) => {
+    res.render("data/create"); });
+    
+app.post("/data/create",async (req,res) =>{
+    try{
+        const data = {book_id: req.body.book_id, user_id: req.body.user_id};
+        
+        await axios.post(base_url + '/data',data);
+        res.redirect("/data/");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+
+app.get("/data/update/:id" , async (req,res) => {
+    try {
+        const response = await axios.get(base_url + '/data/' + req.params.id);
+        const response2 = await axios.get(base_url + '/book/');
+        const response3 = await axios.get(base_url + '/user/');
+        res.render("data/update", {book: response.data , alldata_school : response2.data , alldata_user : response3.data});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+app.post ("/data/update/:id" , async (req,res) => {
+    try {
+        const data = { book_id: req.body.book_id,user_id: req.body.user_id};
+
+        console.log( req.body.province_id)
+        await axios.put(base_url + '/data/' + req.params.id, data);
+        res.redirect("/data");
+    }catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+
+
+app.get("/data/delete/:id" , async (req,res) => {
+    try {
+        await axios.delete(base_url + '/data/' + req.params.id);
+            res.redirect("/data/");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+// app.listen(5500, ()=> {
+//     console.log('Server started on port 5500');
+// });
+
+app.listen(8080, ()=> {
+    console.log('Server started on port 8080');
+});
