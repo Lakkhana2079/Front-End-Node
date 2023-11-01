@@ -232,7 +232,7 @@ app.get("/data/:id", async(req,res) => {
 //     res.render("data/create", {Book: response.data , alldata_book : response2.data , alldata_user : response3.data});
 // });
 
-app.get("/dataa/create", async (req, res) => {
+app.get("/data/create", async (req, res) => {
     res.render("data/create");
 });
 
