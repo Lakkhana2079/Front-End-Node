@@ -1,9 +1,8 @@
-<!-- create.ejs -->
+<!-- update.ejs -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create School</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <title>Update Book</title>
     <style>
         /* Set font family and size for the whole page */
 body {
@@ -129,13 +128,13 @@ form {
     </style>
 </head>
 <body>
-    <h1>Create Data</h1>
-    <form method="post" action="http://localhost:5500/data/create">
+    <h1>Update Book</h1>
+    <form method="post" action="/book/update/<%= book.book_id %>">
         <label for="book_name">Book:</label>
-        <input type="TEXT" id="book_name" name="book_name">
+        <input type="text" id="book_name" name="book_name">
         <br>
         <label for="user_name">User:</label>
-        <input type="TEXT" id="user_name" name="user_name">
+        <input type="text" id="user_name" name="user_name">
         <br>
         <label for="borrowdate">borrowdate:</label>
         <input type="date" id="borrowdate" name="borrowdate">
@@ -143,10 +142,11 @@ form {
         <label for="returndate">returndate:</label>
         <input type="date" id="returndate" name="returndate">
         <br>
-        <input type="submit" value="create">
+        <input type="submit" value="Update">
     </form>
+    </div>
     <div class="link-center">
     <a href="http://localhost:5500/data">Back to List</a>
-</div>
+  </div>
 </body>
 </html>
