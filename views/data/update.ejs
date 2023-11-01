@@ -1,8 +1,9 @@
-<!-- update.ejs -->
+<!-- create.ejs -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update Book</title>
+    <title>Create School</title>
+    <link rel="stylesheet" href="../css/style.css" />
     <style>
         /* Set font family and size for the whole page */
 body {
@@ -128,21 +129,24 @@ form {
     </style>
 </head>
 <body>
-    <h1>Update Book</h1>
-    <form method="post" action="/school/update/<%= book.school_id %>">
-        <label for="name">name:</label>
-        <input type="text" id="name" name="name" value="<%= book.name %>">
+    <h1>Create Data</h1>
+    <form method="post" action="http://localhost:5500/data/create">
+        <label for="book_name">Book:</label>
+        <input type="TEXT" id="book_name" name="book_name">
         <br>
-        <label for="number">number:</label>
-        <input type="text" id="number" name="number" value="<%= book.number %>">
+        <label for="user_name">User:</label>
+        <input type="TEXT" id="user_name" name="user_name">
         <br>
-        <input type="submit" value="Update">
+        <label for="borrowdate">borrowdate:</label>
+        <input type="date" id="borrowdate" name="borrowdate">
+        <br>
+        <label for="returndate">returndate:</label>
+        <input type="date" id="returndate" name="returndate">
+        <br>
+        <input type="submit" value="create">
     </form>
-    </div>
     <div class="link-center">
-    <a href="http://localhost:5500/school/<%= book.school_id %>">View</a>
-    <a href="http://localhost:5500/school/delete/<%= book.school_id %>">Delete</a>
-    <a href="http://localhost:5500/school">Back to List</a>
-  </div>
+    <a href="http://localhost:5500/data">Back to List</a>
+</div>
 </body>
 </html>
